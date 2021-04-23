@@ -1,0 +1,21 @@
+{
+  "name": "react-accordion-collapsible",
+  "version": "1.0.3",
+  "description": "",
+  "main": "lib/index.js",
+  "types": "lib",
+  "scripts": {
+    "build": "tsc -p ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "peerDependencies": {
+    "react":">=16.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^17.0.3",
+    "react": "^17.0.2",
+    "typescript": "^4.2.4"
+  }
+}
