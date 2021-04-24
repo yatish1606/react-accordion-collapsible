@@ -1,0 +1,35 @@
+
+
+.react-accordion-collapsible-container {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.react-accordion-collapsible-title-container {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.react-accordion-collapsible-title {
+    font-size: 20px;
+    color: #22242E;
+    letter-spacing: 0.4px;
+    text-align: left;
+    flex-grow: 1;
+}
+
+.icon {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.icon > path {
+    fill: gold;
+    stroke: gold;
+    stroke-width: 1px;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+}
