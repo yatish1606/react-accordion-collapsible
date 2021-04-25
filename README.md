@@ -2,13 +2,15 @@
 
 A simple, clean and highly customizable accordion component for React projects. Does not require the downloading of any external dependencies.
 
+![react-accordion-collapsible](./assets/react-accordion-collapsible.svg)
+
 #### Installing
 
 `npm install react-accordion-collapsible`
 
 #### Using the package
 
-`
+```javascript
     import React from 'react'
     import { Accordion } from 'react-accordion-collapsible'
 
@@ -23,12 +25,12 @@ A simple, clean and highly customizable accordion component for React projects. 
 
     export default Example
 
-`
+```
 
 #### Props
 
 | prop        | isRequired           | default  | type | description |
-| ------------- |:-------------:| :-----:| :-----: | ------: | 
+| ------------- |:-------------:| :-----:| :-----: | ------ | 
 | title | yes | - | `string` | title of the accordion |
 | content | yes |  - | `string` | text content of the accordion |
 | wrap | - | false | `boolean` | whether to wrap the accordion or let it take full width of parent(default) |
@@ -44,3 +46,7 @@ A simple, clean and highly customizable accordion component for React projects. 
 | onExpand | - | - | `function` | function called when the accordion is opened |
 | onCollapse | - | - | `function` | function called when the accordion is closed |
 | activeTitleColor | - | #22242E | `string` | color of the title when accordion is opened |
+
+#### Github Repository
+
+[github.com/yatish1606/react-accordion-collapsible](https://github.com/yatish1606/react-accordion-collapsible)
