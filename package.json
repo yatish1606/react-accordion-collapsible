@@ -1,6 +1,6 @@
 {
   "name": "react-accordion-collapsible",
-  "version": "1.0.28",
+  "version": "1.0.35",
   "description": "",
   "main": "lib/index.js",
   "types": "lib",

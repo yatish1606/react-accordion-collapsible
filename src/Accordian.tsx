@@ -1,23 +1,65 @@
-import React , { useState } from 'react'
+import React, { 
+    Fragment,
+    ReactElement, 
+    ReactNode, 
+    useState,
+    MouseEvent } from 'react'
 
 
 const Accordion : React.FC<{
+
     title : string | number,
     content : string | number,
     wrap ?: boolean,
     defaultOpen ?: boolean,
+    expandIcon ?: ReactElement | null,
+    collapseIcon ?: ReactElement | null,
+    animation ?: boolean,
+    animationDuration ?: number | string,
+    children ?: ReactNode,
+    reverseIconPosition ?: boolean,
+    iconSize ?: number,
+    onClick ?: (event : MouseEvent<HTMLDivElement>) => void,
+    onExpand ?: (event : MouseEvent<HTMLDivElement>) => void,
+    onCollapse ?: (event : MouseEvent<HTMLDivElement>) => void,
+    activeTitleColor ?: string,
+
 }> = ({ 
+
     title, 
     content, 
     wrap = false,
-    defaultOpen = false
+    defaultOpen = false,
+    expandIcon = null,
+    collapseIcon = null,
+    animation = true,
+    animationDuration = 0.25,
+    children = <></>,
+    reverseIconPosition = false,
+    iconSize = 16,
+    onClick = () => {},
+    onExpand = () => {},
+    onCollapse = () => {},
+    activeTitleColor = '#22242E'
+
 }) => {
 
     const [isOpen, setIsOpen] = useState(defaultOpen)
 
     title = title.toString()
     content = content.toString()
+    const transitionDuration = animationDuration.toString().indexOf('s') === -1 ? `${animationDuration.toString()}s` : `${animationDuration.toString()}`
 
+    const onClickHandler = (e : MouseEvent<HTMLDivElement, globalThis.MouseEvent>) => {
+        
+        setIsOpen(!isOpen)
+        onClick(e)
+
+        if(isOpen) 
+            onCollapse(e)
+        else 
+            onExpand(e)
+    }
 
     interface style {
         container : Object,
@@ -25,7 +67,8 @@ const Accordion : React.FC<{
         title: Object,
         content: Object,
         icon: Object,
-        contentContainer: Object
+        contentContainer: Object,
+        iconContainer : Object
     }
     
     const styleObject : style = {
@@ -34,57 +77,61 @@ const Accordion : React.FC<{
             boxSizing: 'border-box',
             display: 'flex',
             flexDirection: 'column',
-            width: wrap ? 'fit-content' : '100%',
-            borderRadius: 5,  
+            width: wrap ? 'fit-content' : 'auto',
+            borderRadius: 8,  
             overflow: 'hidden',
-            margin:'10px 0',
-            boxShadow : isOpen ? '0px 10px 15px #E5E5E5' : 'none'
+            margin: isOpen ? '10px' : '0 10px',
+            // boxShadow : isOpen ? '0px 10px 15px #E5E5E5' : 'none'
         },
     
         titleContainer : {
             display: 'flex',
-            flexDirection: 'row',
+            flexDirection: reverseIconPosition ? 'row-reverse' : 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
             boxSizing: 'border-box',
             cursor: 'pointer',
-            padding: '20px',
-            backgroundColor: isOpen ? '#E5F3FF' : 'transparent'
+            padding: isOpen ? '20px' : '10px 20px',
+            transition: animation ? '0.2s ease-out' : 'none',
+            transitionDuration,
+            backgroundColor: isOpen ? '#F0F0F0' : 'transparent'
         },
     
         title : {
-            color: '#22242E',
-            fontSize: 18,
+            color: isOpen ? activeTitleColor : '#22242E',
+            fontSize: 14.5,
             letterSpacing: 0.5,
+            lineHeight: '19px',
             textAlign: 'left',
             flexGrow: 1,
             margin: 0,
-            marginRight: 20,
-            fontWeight: 700,
+            marginRight: reverseIconPosition ? 0 : 20,
+            marginLeft: reverseIconPosition ? 20 : 0,
+            fontWeight: 500,
             boxSizing: 'border-box',
-            fontFamily:'Manrope'
+            fontFamily:'Plus Jakarta Display'
         },
 
         content : {
             color: '#636672',
-            fontSize: 15,
-            lineHeight: '22px',
-            letterSpacing: 0.6,
+            fontSize: 13.5,
+            lineHeight: '17px',
+            letterSpacing: 0.35,
             textAlign: 'justify',
             width: '100%',
             margin: 0,
             visibility : isOpen ? 'visible' : 'hidden',
             transition: 'visibility 0.15s ease-out',
             boxSizing: 'border-box',
-            fontFamily:'Manrope',
+            fontFamily:'Plus Jakarta Text',
             fontWeight: 300,
         },
 
         icon : {
-            width: 16,
-            height: 16,
+            width: iconSize,
+            height: iconSize,
             stroke: '#22242E',
-            strokeWidth: 2.5,
+            strokeWidth: 3,
             strokeLinecap: 'round',
             transition: '0.2s ease-out',
             boxSizing: 'border-box'
@@ -92,10 +139,20 @@ const Accordion : React.FC<{
     
         contentContainer : {
             boxSizing: 'border-box',
-            padding: isOpen ? '20px' : '0 20px',
+            padding: isOpen ? '12px 20px 20px 20px' : '0 20px',
             height: isOpen ? 'auto' : 0,
-            transition: '0.2s ease-out',
+            transition: animation ? '0.2s ease-out' : 'none',
+            transitionDuration,
             overflow: 'hidden',
+            backgroundColor:'white',
+        },
+
+        iconContainer : {
+            height: '100%',
+            minWidth : 20,
+            disply: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
         },
 
     }
@@ -103,70 +160,91 @@ const Accordion : React.FC<{
 
     return (
 
-        <div
-            className="react-accordion-collapsible-container"
-            style = {styleObject.container}
-        >
-
-            <head>
-                <link rel="preconnect" href="https://fonts.gstatic.com"></link>
-                <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;700;800&display=swap" rel="stylesheet"></link>
-            </head>
+        <Fragment>
             
-            <div 
-                className="react-accordion-collapsible-title-container" 
-                style={styleObject.titleContainer}
-                onClick={() => setIsOpen(!isOpen)}
+            <head>
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xz/fonts@1/serve/plus-jakarta-text.min.css"/>
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xz/fonts@1/serve/plus-jakarta-display.min.css"/> 
+            </head>
+        
+            <div
+                className="react-accordion-collapsible-container"
+                style = {styleObject.container}
             >
-                
-                <p className="react-accordion-collapsible-title" style={styleObject.title}>{title}</p>
-                
-                <React.Fragment>
-                {
-                    isOpen ? 
-                    
-                    // Minus icon (accordion open)
-                    <svg className="icon" viewBox="0 0 24 24" width={16} height={16} style={styleObject.icon}>
-                        <path d="M 2,12 L 22,12" />
-                    </svg>
 
-                    : 
+                
+                
+                <div 
+                    className="react-accordion-collapsible-title-container" 
+                    style={styleObject.titleContainer}
+                    onClick={e => onClickHandler(e)}
+                >
                     
-                    // Plus icon (accordion closed)
-                    <svg className="icon" viewBox="0 0 24 24" width={16} height={16} style={styleObject.icon}>
-                        <path d="M 2,12 L 22,12  M 12,2 L 12,22" />
-                    </svg>
+                    <p className="react-accordion-collapsible-title" style={styleObject.title}>{title}</p>
+                    
+                    <div className="react-accordion-collapsible-icon-container" style={styleObject.iconContainer}>
+                    {
+                        isOpen ? 
+                        
+                            collapseIcon !== null ? 
+                            
+                            <Fragment>
+                                {collapseIcon}
+                            </Fragment> 
+                            
+                            : 
+                            // Minus icon (accordion open)
+                            <svg className="icon" viewBox="0 0 24 24" width={iconSize} height={iconSize} style={styleObject.icon}>
+                                <path d="M 2,12 L 22,12" />
+                            </svg>
 
-                }
-                </React.Fragment>
+                        : 
+                        
+                            expandIcon !== null ? 
+                            
+                            <Fragment>
+                                {expandIcon}
+                            </Fragment> 
+                            
+                            :
+                            // Plus icon (accordion closed)
+                            <svg className="icon" viewBox="0 0 24 24" width={iconSize} height={iconSize} style={styleObject.icon}>
+                                <path d="M 2,12 L 22,12  M 12,2 L 12,22" />
+                            </svg>
+
+                    }
+                    </div>
+
+                </div>
+
+                <div 
+                    className="react-accordion-collapsible-content-container"
+                    style={styleObject.contentContainer}
+                >
+                    <p className="content" style={styleObject.content}>{content}</p>
+
+                    {children}
+
+                </div>
 
             </div>
 
-            <div 
-                className="react-accordion-collapsible-content-container"
-                style={styleObject.contentContainer}
-            >
-                <p className="content" style={styleObject.content}>{content}</p>
-            </div>
-
-        </div>
+        </Fragment>
     )
 }
 
 export default Accordion
 
 
-
-
-
-
 /*
 
-<Accordion 
-    title="This is title" 
-    content="this is content"
-    defaultOpen={true}
-    wrap={false}
+<Accordion
+    title="This is title with a longer length just for testing better than lorem ipsum"
+    content="this is content so maybe this can be used to test a accordion with larger content sizes"
+    defaultOpen={false}
+    wrap={true}
+    animation={true}
+    animationDuration={0.1}
 />
 
 */
