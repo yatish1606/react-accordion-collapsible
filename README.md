@@ -2,7 +2,7 @@
 
 A simple, clean, responsive and highly customizable accordion component for React projects. Does not require the downloading of any external dependencies.
 
-![react-accordion-collapsible](./assets/react-accordion-collapsible.svg)
+![react-accordion-collapsible](https://github.com/yatish1606/react-accordion-collapsible/blob/master/assets/react-accordion-collapsible.svg)
 
 #### Installing
 
