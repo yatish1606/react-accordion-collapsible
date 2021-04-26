@@ -1,3 +1,4 @@
 import Accordion from './Accordian';
-export { Accordion };
+import MultiAccordion from './MultiAccordion';
+export { Accordion, MultiAccordion };
 //# sourceMappingURL=index.d.ts.map
