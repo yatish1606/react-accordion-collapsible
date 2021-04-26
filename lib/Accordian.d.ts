@@ -1,5 +1,6 @@
-import React, { ReactElement, ReactNode, MouseEvent } from 'react';
-declare const Accordion: React.FC<{
+import { ReactElement, ReactNode, MouseEvent, FC } from 'react';
+declare const Accordion: FC<{
+    id?: number;
     title: string | number;
     content: string | number;
     wrap?: boolean;
@@ -15,6 +16,7 @@ declare const Accordion: React.FC<{
     onExpand?: (event: MouseEvent<HTMLDivElement>) => void;
     onCollapse?: (event: MouseEvent<HTMLDivElement>) => void;
     activeTitleColor?: string;
+    contentCharLimit?: number | null;
 }>;
 export default Accordion;
 //# sourceMappingURL=Accordian.d.ts.map
