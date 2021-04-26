@@ -3,11 +3,14 @@ import React, {
     ReactElement, 
     ReactNode, 
     useState,
-    MouseEvent } from 'react'
+    MouseEvent,
+    FC
+} from 'react'
 
 
-const Accordion : React.FC<{
+const Accordion : FC<{
 
+    id ?: number,
     title : string | number,
     content : string | number,
     wrap ?: boolean,
@@ -23,9 +26,11 @@ const Accordion : React.FC<{
     onExpand ?: (event : MouseEvent<HTMLDivElement>) => void,
     onCollapse ?: (event : MouseEvent<HTMLDivElement>) => void,
     activeTitleColor ?: string,
+    contentCharLimit ?: number | null,
 
 }> = ({ 
 
+    id = Math.floor(Math.random() * Date.now()),
     title, 
     content, 
     wrap = false,
@@ -40,7 +45,8 @@ const Accordion : React.FC<{
     onClick = () => {},
     onExpand = () => {},
     onCollapse = () => {},
-    activeTitleColor = '#22242E'
+    activeTitleColor = '#22242E',
+    contentCharLimit = null,
 
 }) => {
 
@@ -48,6 +54,11 @@ const Accordion : React.FC<{
 
     title = title.toString()
     content = content.toString()
+    
+    if(contentCharLimit !== null) {
+        content = content.length > contentCharLimit ? content.slice(0,contentCharLimit).concat(' ... ') : content
+    }
+
     const transitionDuration = animationDuration.toString().indexOf('s') === -1 ? `${animationDuration.toString()}s` : `${animationDuration.toString()}`
 
     const onClickHandler = (e : MouseEvent<HTMLDivElement, globalThis.MouseEvent>) => {
@@ -55,10 +66,7 @@ const Accordion : React.FC<{
         setIsOpen(!isOpen)
         onClick(e)
 
-        if(isOpen) 
-            onCollapse(e)
-        else 
-            onExpand(e)
+        isOpen ? onCollapse(e) : onExpand(e)
     }
 
     interface style {
@@ -157,7 +165,6 @@ const Accordion : React.FC<{
 
     }
 
-
     return (
 
         <Fragment>
@@ -170,10 +177,9 @@ const Accordion : React.FC<{
             <div
                 className="react-accordion-collapsible-container"
                 style = {styleObject.container}
+                key={id}
             >
 
-                
-                
                 <div 
                     className="react-accordion-collapsible-title-container" 
                     style={styleObject.titleContainer}
@@ -234,17 +240,3 @@ const Accordion : React.FC<{
 }
 
 export default Accordion
-
-
-/*
-
-<Accordion
-    title="This is title with a longer length just for testing better than lorem ipsum"
-    content="this is content so maybe this can be used to test a accordion with larger content sizes"
-    defaultOpen={false}
-    wrap={true}
-    animation={true}
-    animationDuration={0.1}
-/>
-
-*/
