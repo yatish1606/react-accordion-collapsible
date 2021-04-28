@@ -2,6 +2,7 @@ import React, {
     FC, 
     Fragment,
     ReactElement,
+    useCallback,
     useState
 } from 'react'
 import Accordion from './Accordian'
@@ -9,6 +10,11 @@ import Accordion from './Accordian'
 interface AccordionItem {
     title : string,
     content : string,
+}
+
+function useForceUpdate () {
+    const [value, setValue] = useState(0)
+    return () => setValue(value => value + 1)
 }
 
 const MultiAccordion : FC<{
@@ -42,11 +48,14 @@ const MultiAccordion : FC<{
 
 }) => {
 
-    const [activeAccordion, setActiveAccordion] = useState(allowMultipleExpanded ? null : 0)
+    const [activeAccordion, setActiveAccordion] = useState(allowMultipleExpanded ? [] : Array.from({length: items.length}, i => i = false))
     const [defaultOpenArray, setDefaultOpenArray] = useState(defaultOpen)
+    
+    const forceUpdate = useForceUpdate()
 
-
+    console.log('axctiveAcc', activeAccordion)
     const setActiveState = (index : number) => {
+        
         if(allowMultipleExpanded) {
             const tempArray : Array<number> = [...defaultOpenArray]
             if(tempArray.indexOf(index) === -1) tempArray.push(index) 
@@ -54,7 +63,19 @@ const MultiAccordion : FC<{
             setDefaultOpenArray(tempArray)
             return
         }
-        setActiveAccordion(index)
+
+        const tempArraySingleExpanded : Array<boolean> = [...activeAccordion]
+
+        // accordion is already open
+        if(tempArraySingleExpanded[index]) {
+            tempArraySingleExpanded[index] = false
+        } else {
+            tempArraySingleExpanded.map(i => i = false)[index] = true 
+        }
+        
+        setActiveAccordion(tempArraySingleExpanded)
+        console.log( tempArraySingleExpanded, activeAccordion)
+        //forceUpdate()
     }
 
 
@@ -70,7 +91,7 @@ const MultiAccordion : FC<{
                     content={content}
                     wrap={wrap}
                     onClick={() => setActiveState(index)}
-                    defaultOpen={allowMultipleExpanded ? defaultOpenArray?.indexOf(index) !== -1 : activeAccordion === index}
+                    defaultOpen={allowMultipleExpanded ? defaultOpenArray?.indexOf(index) !== -1 : activeAccordion[index]}
                     expandIcon={expandIcon}
                     collapseIcon={collapseIcon}
                     animation={animation}
