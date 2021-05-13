@@ -1,12 +1,14 @@
 ## React Accordion Collapsible
 
-A simple, clean, responsive and highly customizable accordion component for React projects. Does not require the downloading of any external dependencies.
+A simple, clean, responsive and highly customizable accordion component for React projects. 
 
 ![react-accordion-collapsible](https://github.com/yatish1606/react-accordion-collapsible/blob/master/assets/react-accordion-collapsible.svg)
 
 #### Installing
 
 ```npm install react-accordion-collapsible```
+
+The package does not require the downloading of any external dependencies :)
 
 #### Using the package
 
@@ -15,13 +17,13 @@ import React from 'react'
 import { Accordion } from 'react-accordion-collapsible'
 
 const Example = () => {
-    return (
-        <Accordion
-            title="Example title for React Accordion Collapsible"
-            content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor"
-        />
-    )
-}
+  return (
+    <Accordion
+      title="Example title for React Accordion Collapsible"
+      content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor"
+    />
+  )
+ }
 
 export default Example
 
