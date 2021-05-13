@@ -6,7 +6,7 @@ A simple, clean, responsive and highly customizable accordion component for Reac
 
 #### Installing
 
-`npm install react-accordion-collapsible`
+````npm install react-accordion-collapsible```
 
 #### Using the package
 
@@ -35,7 +35,7 @@ Check out some usage examples in the `/examples` folder
 
 | prop        | isRequired           | default  | type | description |
 | ------------- |:-------------:| :-----:| :-----: | ------ | 
-| id | no | - | `number` | unique id |
+| id | - | - | `number` | unique id |
 | title | yes | - | `string` | title of the accordion |
 | content | yes |  - | `string` | text content of the accordion |
 | wrap | - | `false` | `boolean` | whether to wrap the accordion or let it take full width of parent(default) |
