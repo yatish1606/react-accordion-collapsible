@@ -6,7 +6,7 @@ A simple, clean, responsive and highly customizable accordion component for Reac
 
 #### Installing
 
-```javascript
+```node
 npm install react-accordion-collapsible
 ```
 
