@@ -1,6 +1,6 @@
 ## React Accordion Collapsible
 
-A simple, clean, responsive and highly customizable accordion component for React projects. 
+A simple, clean, responsive and highly customizable accordion component for React projects. Find it on npm [here](https://www.npmjs.com/package/react-accordion-collapsible)
 
 ![react-accordion-collapsible](https://github.com/yatish1606/react-accordion-collapsible/blob/master/assets/react-accordion-collapsible.svg)
 
